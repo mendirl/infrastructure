@@ -31,27 +31,27 @@ prune)
   exit $?;;
 
 single-start)
-  docker-compose --compatibility -f monitoring/docker-compose-odfe-single.yml up -d
+  docker-compose --compatibility -f docker-compose-odfe-single.yml up -d
   exit $?;;
 
 single-stop)
-  docker-compose --compatibility -f monitoring/docker-compose-odfe-single.yml down
+  docker-compose --compatibility -f docker-compose-odfe-single.yml down
   exit $?;;
 
 single-config)
-  docker-compose --compatibility -f monitoring/docker-compose-odfe-single.yml config
+  docker-compose --compatibility -f docker-compose-odfe-single.yml config
   exit $?;;
 
 cluster-start)
-  docker-compose --compatibility -f monitoring/docker-compose-odfe-cluster.yml up -d
+  docker-compose --compatibility -f docker-compose-odfe.yml up -d
   exit $?;;
 
 cluster-stop)
-  docker-compose --compatibility -f monitoring/docker-compose-odfe-cluster.yml down
+  docker-compose --compatibility -f docker-compose-odfeluster.yml down
   exit $?;;
 
 cluster-config)
-  docker-compose --compatibility -f monitoring/docker-compose-odfe-cluster.yml config
+  docker-compose --compatibility -f docker-compose-odfe.yml config
   exit $?;;
 
 spring-cloud-data-flow-start)

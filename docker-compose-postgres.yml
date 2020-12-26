@@ -1,7 +1,7 @@
-version: '3.8'
+version: '3'
 services:
-  postgres-quarkus-reactive:
-    image: postgres:12
+  postgres:
+    image: postgres:13
     environment:
       POSTGRES_USER: quarkus_test
       POSTGRES_PASSWORD: quarkus_test

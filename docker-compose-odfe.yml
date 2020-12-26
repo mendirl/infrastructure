@@ -5,15 +5,13 @@ services:
     container_name: odfe-master
     hostname: odfe-master
     environment:
-      - cluster.name=odfe-cluster
       - node.name=odfe-master
-      - node.master=true
-      - node.data=false
-      - node.ingest=false
+      - cluster.name=odfe-cluster
+      - node.roles=master
       - discovery.seed_hosts=odfe-master
       - cluster.initial_master_nodes=odfe-master
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
       - network.host=0.0.0.0
     ulimits:
       memlock:
@@ -22,12 +20,6 @@ services:
       nofile:
         soft: 65536
         hard: 65536
-    deploy:
-      resources:
-        limits:
-          memory: 4G
-      restart_policy:
-        condition: any
     volumes:
       - odfe-master:/usr/share/elasticsearch/data
       #      - ./es-certif/root-ca.pem:/usr/share/elasticsearch/config/root-ca.pem
@@ -35,17 +27,21 @@ services:
       #      - ./es-certif/node-key.pem:/usr/share/elasticsearch/config/node-key.pem
       #      - ./es-certif/admin.pem:/usr/share/elasticsearch/config/admin.pem
       #      - ./es-certif/admin-key.pem:/usr/share/elasticsearch/config/admin-key.pem
-      #      - ./es-config/custom-elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      #      - ./es-config/custom-security-config.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/config.yml
-      - ./es-config/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
-      - ./es-config/roles_mapping.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/roles_mapping.yml
-      - ./es-config/tenants.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/tenants.yml
-      - ./es-config/roles.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/roles.yml
-      - ./es-config/action_groups.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/action_groups.yml
+      #      - ./config-elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      #      - ./config-elasticsearch/security-config.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/config.yml
+      - ./config-elasticsearch/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
+      - ./config-elasticsearch/roles_mapping.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/roles_mapping.yml
+      - ./config-elasticsearch/tenants.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/tenants.yml
+      - ./config-elasticsearch/roles.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/roles.yml
+      - ./config-elasticsearch/action_groups.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/action_groups.yml
+    ports:
+      - 9200:9200
+      - 9300:9300
+      - 9600:9600
     expose:
-      - 9200
-      - 9300
-      - 9600
+     - 9200
+     - 9300
+     - 9600
 
   odfe-data1:
     image: amazon/opendistro-for-elasticsearch:1.12.0
@@ -54,13 +50,11 @@ services:
     environment:
       - cluster.name=odfe-cluster
       - node.name=odfe-data1
-      - node.master=false
-      - node.data=true
-      - node.ingest=true
+      - node.roles=data,ingest
       - discovery.seed_hosts=odfe-master
       - cluster.initial_master_nodes=odfe-master
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
       - network.host=0.0.0.0
     ulimits:
       memlock:
@@ -69,14 +63,12 @@ services:
       nofile:
         soft: 65536
         hard: 65536
-    deploy:
-      resources:
-        limits:
-          memory: 4G
-      restart_policy:
-        condition: any
     volumes:
       - odfe-data1:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+      - 9600:9600
     expose:
       - 9200
       - 9300
@@ -89,13 +81,11 @@ services:
     environment:
       - cluster.name=odfe-cluster
       - node.name=odfe-data2
-      - node.master=false
-      - node.data=true
-      - node.ingest=true
+      - node.roles=data,ingest
       - discovery.seed_hosts=odfe-master
       - cluster.initial_master_nodes=odfe-master
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
       - network.host=0.0.0.0
     ulimits:
       memlock:
@@ -104,14 +94,12 @@ services:
       nofile:
         soft: 65536
         hard: 65536
-    deploy:
-      resources:
-        limits:
-          memory: 4G
-      restart_policy:
-        condition: any
     volumes:
       - odfe-data2:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+      - 9600:9600
     expose:
       - 9200
       - 9300
@@ -124,13 +112,11 @@ services:
     environment:
       - cluster.name=odfe-cluster
       - node.name=odfe-coordinating
-      - node.master=false
-      - node.data=false
-      - node.ingest=false
+      - node.roles=
       - discovery.seed_hosts=odfe-master
       - cluster.initial_master_nodes=odfe-master
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
       - network.host=0.0.0.0
     ulimits:
       memlock:
@@ -139,49 +125,39 @@ services:
       nofile:
         soft: 65536
         hard: 65536
-    deploy:
-      resources:
-        limits:
-          memory: 4G
-      restart_policy:
-        condition: any
     volumes:
       - odfe-coordinating:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
       - 9300:9300
       - 9600:9600
+    expose:
+      - 9200
+      - 9300
+      - 9600
 
   kibana:
     image: amazon/opendistro-for-elasticsearch-kibana:1.12.0
     container_name: odfe-kibana
     hostname: odfe-kibana
     environment:
-      ELASTICSEARCH_HOSTS: https://odfe-coordinating:9200
-    deploy:
-      resources:
-        limits:
-          memory: 2G
-      restart_policy:
-        condition: any
+      ELASTICSEARCH_HOSTS: https://odfe-master:9200
+#      ELASTICSEARCH_HOSTS: https://odfe-coordinating:9200
     #    volumes:
-    #      - ./custom-kibana.yml:/usr/share/kibana/config/kibana.yml
+    #      - ./kibana.yml:/usr/share/kibana/config/kibana.yml
     ports:
       - 5601:5601
+    depends_on:
+      - odfe-coordinating
+      - odfe-master
 
   logstash:
     image: docker.elastic.co/logstash/logstash-oss:7.10.1
     container_name: logstash
-    hostname: odfe-logstash
-    deploy:
-      resources:
-        limits:
-          memory: 2G
-      restart_policy:
-        condition: any
+    hostname: logstash
     volumes:
-      - ./logstash-config/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
-    #      - ./logstash-config/custom-logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./config-logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    #      - ./config-logstash/logstash.yml:/usr/share/logstash/config/logstash.yml
     ports:
       - 5000:5000
       - 5000:5000/udp
@@ -190,10 +166,11 @@ services:
       - INPUT_TCP_PORT=5000
       - INPUT_UDP_PORT=5000
       - INPUT_HTTP_PORT=5001
-      - ELASTICSEARCH_HOST1=odfe-data1
-      - ELASTICSEARCH_PORT1=9200
-      - ELASTICSEARCH_HOST2=odfe-data2
-      - ELASTICSEARCH_PORT2=9200
+      - ELASTICSEARCH_HOST1=odfe-data1:9200
+      - ELASTICSEARCH_HOST2=odfe-data2:9200
+    depends_on:
+      - odfe-data1
+      - odfe-data2
 
 volumes:
   odfe-master:
