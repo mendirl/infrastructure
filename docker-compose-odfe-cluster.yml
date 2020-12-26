@@ -5,9 +5,11 @@ services:
     container_name: odfe-master
     hostname: odfe-master
     environment:
-      - node.name=odfe-master
       - cluster.name=odfe-cluster
-      - node.roles=master
+      - node.name=odfe-master
+      - node.master=true
+      - node.data=false
+      - node.ingest=false
       - discovery.seed_hosts=odfe-master
       - cluster.initial_master_nodes=odfe-master
       - bootstrap.memory_lock=true
@@ -34,14 +36,10 @@ services:
       - ./config-elasticsearch/tenants.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/tenants.yml
       - ./config-elasticsearch/roles.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/roles.yml
       - ./config-elasticsearch/action_groups.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/action_groups.yml
-    ports:
-      - 9200:9200
-      - 9300:9300
-      - 9600:9600
     expose:
-     - 9200
-     - 9300
-     - 9600
+      - 9200
+      - 9300
+      - 9600
 
   odfe-data1:
     image: amazon/opendistro-for-elasticsearch:1.12.0
@@ -50,7 +48,9 @@ services:
     environment:
       - cluster.name=odfe-cluster
       - node.name=odfe-data1
-      - node.roles=data,ingest
+      - node.master=false
+      - node.data=true
+      - node.ingest=true
       - discovery.seed_hosts=odfe-master
       - cluster.initial_master_nodes=odfe-master
       - bootstrap.memory_lock=true
@@ -65,10 +65,6 @@ services:
         hard: 65536
     volumes:
       - odfe-data1:/usr/share/elasticsearch/data
-    ports:
-      - 9200:9200
-      - 9300:9300
-      - 9600:9600
     expose:
       - 9200
       - 9300
@@ -81,7 +77,9 @@ services:
     environment:
       - cluster.name=odfe-cluster
       - node.name=odfe-data2
-      - node.roles=data,ingest
+      - node.master=false
+      - node.data=true
+      - node.ingest=true
       - discovery.seed_hosts=odfe-master
       - cluster.initial_master_nodes=odfe-master
       - bootstrap.memory_lock=true
@@ -96,10 +94,6 @@ services:
         hard: 65536
     volumes:
       - odfe-data2:/usr/share/elasticsearch/data
-    ports:
-      - 9200:9200
-      - 9300:9300
-      - 9600:9600
     expose:
       - 9200
       - 9300
@@ -112,7 +106,9 @@ services:
     environment:
       - cluster.name=odfe-cluster
       - node.name=odfe-coordinating
-      - node.roles=
+      - node.master=false
+      - node.data=false
+      - node.ingest=false
       - discovery.seed_hosts=odfe-master
       - cluster.initial_master_nodes=odfe-master
       - bootstrap.memory_lock=true
@@ -131,25 +127,17 @@ services:
       - 9200:9200
       - 9300:9300
       - 9600:9600
-    expose:
-      - 9200
-      - 9300
-      - 9600
 
   kibana:
     image: amazon/opendistro-for-elasticsearch-kibana:1.12.0
     container_name: odfe-kibana
     hostname: odfe-kibana
     environment:
-      ELASTICSEARCH_HOSTS: https://odfe-master:9200
-#      ELASTICSEARCH_HOSTS: https://odfe-coordinating:9200
+      ELASTICSEARCH_HOSTS: https://odfe-coordinating:9200
     #    volumes:
-    #      - ./kibana.yml:/usr/share/kibana/config/kibana.yml
+    #      - ./config-kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
     ports:
       - 5601:5601
-    depends_on:
-      - odfe-coordinating
-      - odfe-master
 
   logstash:
     image: docker.elastic.co/logstash/logstash-oss:7.10.1
@@ -168,9 +156,6 @@ services:
       - INPUT_HTTP_PORT=5001
       - ELASTICSEARCH_HOST1=odfe-data1:9200
       - ELASTICSEARCH_HOST2=odfe-data2:9200
-    depends_on:
-      - odfe-data1
-      - odfe-data2
 
 volumes:
   odfe-master:

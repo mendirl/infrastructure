@@ -18,8 +18,8 @@ services:
         hard: 65536
     volumes:
       - odfe-single:/usr/share/elasticsearch/data
-      #      - ./config-elasticsearch/custom-elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      #      - ./config-elasticsearch/custom-security-config.yml:/usr/share/elasticsearch/plugins/opendistro_security/config.yml
+      #      - ./config-elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      #      - ./config-elasticsearch/security-config.yml:/usr/share/elasticsearch/plugins/opendistro_security/config.yml
       - ./config-elasticsearch/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
       - ./config-elasticsearch/roles_mapping.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/roles_mapping.yml
       - ./config-elasticsearch/tenants.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/tenants.yml
@@ -34,7 +34,7 @@ services:
     environment:
       - ELASTICSEARCH_HOSTS=https://odfe-single:9200
     #    volumes:
-    #      - ./custom-kibana.yml:/usr/share/kibana/config/kibana.yml
+    #      - ./config-kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
     ports:
       - 5601:5601
     depends_on:

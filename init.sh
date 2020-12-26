@@ -30,44 +30,44 @@ prune)
   docker system prune
   exit $?;;
 
-single-start)
+start-single)
   docker-compose --compatibility -f docker-compose-odfe-single.yml up -d
   exit $?;;
 
-single-stop)
+stop-single)
   docker-compose --compatibility -f docker-compose-odfe-single.yml down
   exit $?;;
 
-single-config)
+config-single)
   docker-compose --compatibility -f docker-compose-odfe-single.yml config
   exit $?;;
 
-cluster-start)
-  docker-compose --compatibility -f docker-compose-odfe.yml up -d
+start-cluster)
+  docker-compose --compatibility -f docker-compose-odfe-cluster.yml up -d
   exit $?;;
 
-cluster-stop)
-  docker-compose --compatibility -f docker-compose-odfeluster.yml down
+stop-cluster)
+  docker-compose --compatibility -f docker-compose-odfe-cluster.yml down
   exit $?;;
 
-cluster-config)
-  docker-compose --compatibility -f docker-compose-odfe.yml config
+config-cluster)
+  docker-compose --compatibility -f docker-compose-odfe-cluster.yml config
   exit $?;;
 
-spring-cloud-data-flow-start)
+start-spring-cloud-data-flow)
   export DATAFLOW_VERSION=2.6.2
   export SKIPPER_VERSION=2.5.2
   docker-compose --compatibility -f spring-cloud-data-flow.yml up
   exit $?;;
 
-spring-cloud-data-flow-stop)
+stop-spring-cloud-data-flow)
   export DATAFLOW_VERSION=2.6.2
   export SKIPPER_VERSION=2.5.2
   docker-compose --compatibility -f spring-cloud-data-flow.yml down
   exit $?;;
 
 *)
-  echo "Usage: $0 {install|remove|prune|single-start|single-stop|single-config|cluster-start|cluster-stop|cluster-config}"; exit 1;
+  echo "Usage: $0 {install|remove|prune|start-single|stop-single|config-single|start-cluster|stop-cluster|config-cluster}"; exit 1;
 esac
 
 
