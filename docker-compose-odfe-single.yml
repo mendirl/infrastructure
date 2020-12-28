@@ -53,9 +53,10 @@ services:
       - ./config-logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
     #      - ./config-logstash/custom-logstash.yml:/usr/share/logstash/config/logstash.yml
     ports:
-      - 5000:5000
-      - 5000:5000/udp
-      - 5001:5001
+#      - 5000:5000
+#      - 5000:5000/udp
+#      - 5001:5001
+      - 12201:12201/udp # gelf for quarkus
     depends_on:
       - odfe-single
 
