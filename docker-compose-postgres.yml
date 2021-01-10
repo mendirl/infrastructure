@@ -1,10 +1,16 @@
-version: '3'
+# https://registry.hub.docker.com/_/postgres
+
+version: "3"
 services:
   postgres:
-    image: postgres:13
-    environment:
-      POSTGRES_USER: quarkus_test
-      POSTGRES_PASSWORD: quarkus_test
-      POSTGRES_DB: quarkus_test
+    image: library/postgres:13
+    hostname: postgres
+    container_name: postgres
     ports:
       - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - ./config-postgresql/ini.sql:/docker-entrypoint-initdb.d/init.sql

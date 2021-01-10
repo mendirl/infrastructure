@@ -1,27 +1,34 @@
 version: "3"
 services:
 
-  postgres:
-    image: postgres
+  postgres-keycloak:
+    image: library/postgres:13
+    hostname: postgres-keycloak
+    container_name: postgres-keycloak
     ports:
-      - 5432:5432
+      - 15432:5432
     environment:
-      - POSTGRES_DB:keycloak
-      - POSTGRES_USER:postgres
-      - POSTGRES_PASSWORD:postgres
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
+      POSTGRES_DB: keycloak
 
+
+  # https://registry.hub.docker.com/r/jboss/keycloak
   keycloak:
-    image: jboss/keycloak
+    image: jboss/keycloak:12.0.1
+    hostname: keycloak
+    container_name: keycloak
     ports:
       - 8080:8080
+      - 9990:9990
     environment:
-      - KEYCLOAK_USER:admin
-      - KEYCLOAK_PASSWORD:admin
-      - DB_VENDOR:postgres
-      - DB_ADDR:postgres
-      - DB_PORT:5432
-      - DB_DATABASE:keycloak
-      - DB_SCHEMA:mendirl
-      - DB_USER:postgres
-      - DB_PASSWORD:postgres
-
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      DB_VENDOR: postgres
+      DB_ADDR: postgres-keycloak
+      DB_PORT: 5432
+      DB_USER: keycloak
+      DB_PASSWORD: keycloak
+      DB_DATABASE: keycloak
+    depends_on:
+      - postgres-keycloak
