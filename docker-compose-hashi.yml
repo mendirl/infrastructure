@@ -10,12 +10,12 @@ services:
       - 8300:8300 # rpc/cluster
       - 8500:8500 # http/ui
       - 8600:8600 # dns
-    command: consul agent -dev -ui -client=0.0.0.0
+    command: consul agent -dev -ui -client 0.0.0.0
 
   # https://hub.docker.com/_/vault
   # https://www.vaultproject.io/docs
   vault:
-    image: library/vault:1.6.0
+    image: library/vault:1.6.1
     hostname: vault
     container_name: vault
     ports:
