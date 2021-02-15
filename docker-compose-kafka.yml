@@ -131,7 +131,7 @@ services:
       STREAMS_SCHEMA_REGISTRY_PORT: 8081
 
   rest-proxy:
-    image: confluentinc/cp-kafka-rest:6.0.1
+    image: confluentinc/cp-kafka-rest:6.1.0
     depends_on:
       - broker
       - schema-registry
