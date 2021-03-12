@@ -1,7 +1,7 @@
 version: '3'
 services:
   odfe-master:
-    image: amazon/opendistro-for-elasticsearch:1.13.0
+    image: amazon/opendistro-for-elasticsearch:1.13.1
     container_name: odfe-master
     hostname: odfe-master
     environment:
@@ -42,7 +42,7 @@ services:
       - 9600
 
   odfe-data1:
-    image: amazon/opendistro-for-elasticsearch:1.13.0
+    image: amazon/opendistro-for-elasticsearch:1.13.1
     container_name: odfe-data1
     hostname: odfe-data1
     environment:
@@ -71,7 +71,7 @@ services:
       - 9600
 
   odfe-data2:
-    image: amazon/opendistro-for-elasticsearch:1.13.0
+    image: amazon/opendistro-for-elasticsearch:1.13.1
     container_name: odfe-data2
     hostname: odfe-data2
     environment:
@@ -100,7 +100,7 @@ services:
       - 9600
 
   odfe-coordinating:
-    image: amazon/opendistro-for-elasticsearch:1.13.0
+    image: amazon/opendistro-for-elasticsearch:1.13.1
     container_name: odfe-coordinating
     hostname: odfe-coordinating
     environment:
