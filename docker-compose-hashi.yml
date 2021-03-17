@@ -10,6 +10,9 @@ services:
       - 8300:8300 # rpc/cluster
       - 8500:8500 # http/ui
       - 8600:8600 # dns
+    volumes:
+     - "/etc/timezone:/etc/timezone:ro"
+     - "/etc/localtime:/etc/localtime:ro"
     command: consul agent -dev -ui -client 0.0.0.0
 
   # https://hub.docker.com/_/vault
@@ -25,5 +28,8 @@ services:
       VAULT_LOCAL_CONFIG: '{"ui": true}'
       VAULT_DEV_ROOT_TOKEN_ID: '00000000-0000-0000-0000-000000000000'
       VAULT_TOKEN: '00000000-0000-0000-0000-000000000000'
+    volumes:
+     - "/etc/timezone:/etc/timezone:ro"
+     - "/etc/localtime:/etc/localtime:ro"
     cap_add:
       - IPC_LOCK
