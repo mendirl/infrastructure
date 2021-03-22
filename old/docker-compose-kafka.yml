@@ -90,7 +90,7 @@ services:
 #      CONNECT_CONSUMER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringConsumerInterceptor"
 
   ksqldb-server:
-    image: confluentinc/cp-ksqldb-server:6.1.0
+    image: confluentinc/cp-ksqldb-server:6.1.1
     hostname: ksqldb-server
     container_name: ksqldb-server
     depends_on:
