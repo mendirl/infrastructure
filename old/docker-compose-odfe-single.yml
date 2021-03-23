@@ -41,7 +41,7 @@ services:
       - odfe-single
 
   logstash:
-    image: docker.elastic.co/logstash/logstash-oss:7.11.2
+    image: docker.elastic.co/logstash/logstash-oss:7.12.0
     container_name: logstash
     environment:
       - INPUT_TCP_PORT=5000
