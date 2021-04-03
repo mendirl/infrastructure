@@ -1,11 +1,43 @@
-GET localhost:9200/_cluster/health
+@baseUrlKeycloak = http://localhost:8080
+@baseUrlElasticSearch = https://localhost:9200
+@authToken = {{loginMonitoring.response.body.$.access_token}}
 
+# @name loginConsumer
+POST {{baseUrlKeycloak}}/auth/realms/JupiterR/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
 
+grant_type=client_credentials
+&client_id=local-spring-consumer
+&client_secret=7ce920b9-ea33-461c-bf28-c6791b75d854
+&scope=openid
 
 ###
+# @name loginMonitoring
+POST {{baseUrlKeycloak}}/auth/realms/monitoring/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
 
-# curl -X GET "localhost:9200/_cluster/health?pretty"
-GET localhost:9200/_cluster/health?pretty
+grant_type=password
+&client_id=kibana
+&client_secret=3c79474e-f31b-4a3a-be6d-49a401e6e2be
+&username=fabien
+&password=fabien
 
 ###
+GET {{baseUrlElasticSearch}}/_cluster/health
+Authorization: Bearer {{authToken}} 
 
+###
+GET {{baseUrlElasticSearch}}/_cluster/health?pretty
+Authorization: Bearer {{authToken}} 
+###
+
+GET {{baseUrlElasticSearch}}/_opendistro/_security/api/internalusers/?pretty
+Authorization: Bearer {{authToken}} 
+###
+
+GET {{baseUrlElasticSearch}}/_opendistro/_security/api/rolesmapping
+Authorization: Basic admin:admin
+
+###
+GET {{baseUrlElasticSearch}}/_opendistro/_security/api/roles/
+Authorization: Basic admin:admin
