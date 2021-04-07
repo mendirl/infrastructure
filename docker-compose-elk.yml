@@ -24,7 +24,7 @@ services:
       - 9200:9200
 
   kibana:
-    image: amazon/opendistro-for-elasticsearch-kibana:1.13.1
+    image: amazon/opendistro-for-elasticsearch-kibana:1.13.2
     hostname: kibana
     container_name: kibana
     environment:
