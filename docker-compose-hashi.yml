@@ -18,7 +18,7 @@ services:
   # https://hub.docker.com/_/vault
   # https://www.vaultproject.io/docs
   vault:
-    image: library/vault:1.7.0
+    image: library/vault:1.7.1
     hostname: vault
     container_name: vault
     ports:
