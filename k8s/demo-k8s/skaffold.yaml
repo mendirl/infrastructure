@@ -1,0 +1,28 @@
+apiVersion: skaffold/v2beta21
+kind: Config
+build:
+  local:
+    push: false
+  tagPolicy:
+    sha256: { }
+  artifacts:
+    - image: demok8s-skaffold
+      context: .
+      jib:
+        args:
+          - "-DskipTests"
+          - "-Pjib"
+deploy:
+  helm:
+    releases:
+      - name: demo-k8s
+        chartPath: charts
+        artifactOverrides:
+          image.repository: demok8s-skaffold
+
+portForward:
+  - resourceType: service
+    resourceName: demo-k8s
+    address: 0.0.0.0
+    port: 7071
+    localPort: 8080

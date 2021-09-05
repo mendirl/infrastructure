@@ -36,20 +36,20 @@ services:
     depends_on:
       - elasticsearch
 
-#   logstash:
-#     image: docker.elastic.co/logstash/logstash-oss:7.12.0
-#     hostname: logstash
-#     container_name: logstash
-#     environment:
-#       - ELASTICSEARCH_HOST=elasticsearch
-#       - ELASTICSEARCH_PORT=9200
-#     volumes:
-#       - ./config-logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
-#       - ./config-logstash/custom-logstash.yml:/usr/share/logstash/config/logstash.yml
-#     ports:
-#      - 5000:5000
-#      - 5000:5000/udp
-#      - 5001:5001
-#      - 12201:12201/udp # gelf for quarkus
-#     depends_on:
-#       - elasticsearch
+  logstash:
+    image: docker.elastic.co/logstash/logstash-oss:7.13.3
+    hostname: logstash
+    container_name: logstash
+    environment:
+      - ELASTICSEARCH_HOST=elasticsearch
+      - ELASTICSEARCH_PORT=9200
+    volumes:
+      - ./config-logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./config-logstash/custom-logstash.yml:/usr/share/logstash/config/logstash.yml
+    ports:
+     - 5000:5000
+     - 5000:5000/udp
+     - 5001:5001
+     - 12201:12201/udp # gelf for quarkus
+    depends_on:
+      - elasticsearch

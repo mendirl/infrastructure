@@ -1,0 +1,19 @@
+{
+  "name": "docs",
+  "version": "0.0.1",
+  "description": "site full of useful (or not) urls",
+  "main": "index.js",
+  "authors": {
+    "name": "fabien",
+    "email": "couillard.fabien+dev@gmail.com"
+  },
+  "repository": "https://github.com/mendirl/infrastructure/docs",
+  "scripts": {
+    "dev": "vuepress dev src",
+    "build": "vuepress build src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "vuepress": "^1.5.3"
+  }
+}

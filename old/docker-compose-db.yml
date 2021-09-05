@@ -3,7 +3,7 @@
 version: "3"
 services:
   postgres:
-    image: library/postgres:13
+    image: postgres:13
     hostname: postgres
     container_name: postgres
     ports:
@@ -14,3 +14,33 @@ services:
 #    volumes:
 #      - ./config-postgresql/ini.sql:/docker-entrypoint-initdb.d/init.sql
 #     - ~/volumes/jhipster/appA/postgresql/:/var/lib/postgresql/data/
+
+  pgadmin:
+    image: dpage/pgadmin4:5
+    hostname: pgadmin
+    container_name: pgadmin
+    ports:
+      - 5480:80
+    environment:
+       PGADMIN_DEFAULT_EMAIL: alt.xk-co6wcznm@yopmail.com
+       PGADMIN_DEFAULT_PASSWORD: xxoca306
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: rabbitmq
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+  activemq:
+    image: rmohr/activemq:5.15.9
+    hostname: activemq
+    container_name: activemq
+    ports:
+      - 61616:61616
+      - 8161:8161
+      - 6572:5672
+      - 61613:61613
+      - 1883:1883
+      - 61614:61614
