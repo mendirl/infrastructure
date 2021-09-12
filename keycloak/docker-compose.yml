@@ -53,6 +53,7 @@ services:
       DB_PASSWORD: keycloak
       DB_DATABASE: keycloak
       PROXY_ADDRESS_FORWARDING: true
+      KEYCLOAK_FRONTEND_URL: http://localhost/security/
     volumes:
       - "/etc/timezone:/etc/timezone:ro"
       - "/etc/localtime:/etc/localtime:ro"
@@ -62,8 +63,12 @@ services:
       - keycloak-postgres
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.security.rule=PathPrefix(`/auth`)"
       - "traefik.http.services.security.loadbalancer.server.port=8080"
+      - "traefik.http.routers.security.rule=PathPrefix(`/security`)"
+      - "traefik.http.routers.security.middlewares=rewritepath"
+      - "traefik.http.middlewares.rewritepath.replacepathregex.regex=^/security/(.*)"
+      - "traefik.http.middlewares.rewritepath.replacepathregex.replacement=/auth/$$1"
+
 
 networks: 
   infranetwork:
