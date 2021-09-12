@@ -18,10 +18,10 @@ services:
     #   - infranetwork
 
   # https://registry.hub.docker.com/_/postgres
-  postgres-keycloak:
+  keycloak-postgres:
     image: library/postgres:13
-    hostname: postgres-keycloak
-    container_name: postgres-keycloak
+    hostname: keycloak-postgres
+    container_name: keycloak-postgres
     # expose:
     #  - 5432
     environment:
@@ -47,7 +47,7 @@ services:
       KEYCLOAK_USER: fabien
       KEYCLOAK_PASSWORD: xxoca306
       DB_VENDOR: postgres
-      DB_ADDR: postgres-keycloak
+      DB_ADDR: keycloak-postgres
       DB_PORT: 5432
       DB_USER: keycloak
       DB_PASSWORD: keycloak
@@ -59,12 +59,11 @@ services:
     networks:
       - infranetwork
     depends_on:
-      - postgres-keycloak
+      - keycloak-postgres
     labels:
+      - "traefik.enable=true"
       - "traefik.http.routers.security.rule=PathPrefix(`/auth`)"
-      - "traefik.http.routers.security.rule=Host(`security.docker.localhost`)"
       - "traefik.http.services.security.loadbalancer.server.port=8080"
-
 
 networks: 
   infranetwork:
