@@ -1,0 +1,37 @@
+log:
+  level: "DEBUG"
+
+entryPoints:
+  web:
+    address: ":80"
+    forwardedHeaders:
+      insecure: true
+  websecure:
+    address: ":443"
+
+api:
+  insecure: true
+
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+
+# http:
+#   routers:
+#     security:
+#       rule: "PathPrefix(`/auth/`)"
+#       service: "security"
+
+# http:
+#   routers:
+#     to-secure-keycloak:
+#       rule: "PathPrefix(`/security`)"
+#       entryPoints: websecure
+#       service: keycloak
+#       tls: {}
+    
+#   services:
+#     keycloak:
+#       loadBalancer:
+#         servers:
+#           - url: "http://keycloak:8080/auth"
