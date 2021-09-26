@@ -28,9 +28,11 @@ services:
       POSTGRES_USER: keycloak
       POSTGRES_PASSWORD: keycloak
       POSTGRES_DB: keycloak
+      PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
-     - "/etc/timezone:/etc/timezone:ro"
-     - "/etc/localtime:/etc/localtime:ro"
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "../data/pgsql/keycloak:/var/lib/postgresql/data"
     networks:
       - infranetwork
 
