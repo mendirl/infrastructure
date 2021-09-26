@@ -1,7 +1,7 @@
 ---
 home: true
 heroImage: https://v1.vuepress.vuejs.org/hero.png
-tagline: some useful (or not) links
+tagline: bunch of files for infra
 actionText: Quick Start →
 actionLink: /guide/
 features:

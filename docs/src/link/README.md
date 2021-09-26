@@ -16,4 +16,3 @@ sidebar: auto
 - [pgadmin](http://localhost/pgadmin/)
 - [keycloak](http://localhost/security/)
 - [keycloak w/o reverse](http://localhost:8082/auth/)
-
