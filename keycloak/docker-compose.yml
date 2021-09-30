@@ -19,7 +19,7 @@ services:
 
   # https://registry.hub.docker.com/_/postgres
   keycloak-postgres:
-    image: library/postgres:13
+    image: library/postgres:14
     hostname: keycloak-postgres
     container_name: keycloak-postgres
     # expose:
