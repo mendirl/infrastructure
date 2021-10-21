@@ -3,7 +3,7 @@
 version: "3"
 services:
   postgres:
-    image: library/postgres:13
+    image: library/postgres:14
     hostname: postgres
     container_name: postgres
     ports:
