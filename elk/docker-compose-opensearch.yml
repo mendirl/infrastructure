@@ -48,7 +48,7 @@ services:
     networks:
       - infranetwork
   opensearch-dashboards:
-    image: opensearchproject/opensearch-dashboards:1.0.1
+    image: opensearchproject/opensearch-dashboards:1.1.0
     container_name: opensearch-dashboards
     ports:
       - 5601:5601
