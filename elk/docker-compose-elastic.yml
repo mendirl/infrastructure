@@ -19,7 +19,7 @@ services:
     ports:
       - 9200:9200
     networks:
-      - elastic
+      - elasticnetwork
   es02:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.15.1
     container_name: es02
@@ -37,7 +37,7 @@ services:
     # volumes:
     #   - data02:/usr/share/elasticsearch/data
     networks:
-      - elastic
+      - elasticnetwork
   kibana:
     image: docker.elastic.co/kibana/kibana:7.15.1
     environment:
@@ -55,3 +55,7 @@ services:
 # networks:
 #   elastic:
 #     driver: bridge
+
+networks:
+  elasticnetwork:
+    external: true

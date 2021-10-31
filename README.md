@@ -8,3 +8,9 @@ https://github.com/docker/for-win/issues/5202#issuecomment-678277217
 
 # RENOVATE
 https://docs.renovatebot.com/
+
+
+in powershell 
+    
+    wsl -d docker-desktop
+    sysctl -w vm.max_map_count=262144

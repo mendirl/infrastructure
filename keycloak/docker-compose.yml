@@ -1,21 +1,21 @@
 version: "3"
 services:
 
-  # pgadmin:
-  #   image: dpage/pgadmin4
-  #   hostname: pgadmin
-  #   container_name: pgadmin
-  #   # expose:
-  #   #   - 80
-  #   environment:
-  #     PGADMIN_DEFAULT_EMAIL: fabien@gmail.com
-  #     PGADMIN_DEFAULT_PASSWORD: xxoca306
-  #     SCRIPT_NAME: /pgadmin
-  #   labels:
-  #     - "traefik.http.routers.pgadmin.rule=PathPrefix(`/pgadmin`)"
-  #     - "traefik.http.services.pgadmin.loadbalancer.server.port=80"
-    # networks:
-    #   - infranetwork
+  pgadmin:
+    image: dpage/pgadmin4
+    hostname: pgadmin
+    container_name: pgadmin
+    # expose:
+    #   - 80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: fabien@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: xxoca306
+      SCRIPT_NAME: /pgadmin
+    labels:
+      - "traefik.http.routers.pgadmin.rule=PathPrefix(`/pgadmin`)"
+      - "traefik.http.services.pgadmin.loadbalancer.server.port=80"
+    networks:
+      - infranetwork
 
   # https://registry.hub.docker.com/_/postgres
   keycloak-postgres:
@@ -42,7 +42,7 @@ services:
     hostname: keycloak
     container_name: keycloak
     ports:
-     - 8082:8080
+      - 8082:8080
     # expose:
     #   - 8080
     environment:
@@ -72,6 +72,6 @@ services:
       - "traefik.http.middlewares.rewritepath.replacepathregex.replacement=/auth/$$1"
 
 
-networks: 
+networks:
   infranetwork:
     external: true
