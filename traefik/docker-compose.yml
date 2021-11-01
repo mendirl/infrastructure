@@ -14,7 +14,7 @@ services:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
-      - infranetwork
+      - infra_network
 
   whoami:
       # A container that exposes an API to show its IP address
@@ -24,8 +24,8 @@ services:
       - "traefik.http.routers.whoami.rule=PathPrefix(`/whoami`)"
       # - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"
     networks:
-      - infranetwork
+      - infra_network
 
 networks: 
-  infranetwork:
+  infra_network:
     external: true

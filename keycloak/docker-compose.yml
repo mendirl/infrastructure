@@ -1,23 +1,8 @@
 version: "3"
 services:
 
-  pgadmin:
-    image: dpage/pgadmin4
-    hostname: pgadmin
-    container_name: pgadmin
-    # expose:
-    #   - 80
-    environment:
-      PGADMIN_DEFAULT_EMAIL: fabien@gmail.com
-      PGADMIN_DEFAULT_PASSWORD: xxoca306
-      SCRIPT_NAME: /pgadmin
-    labels:
-      - "traefik.http.routers.pgadmin.rule=PathPrefix(`/pgadmin`)"
-      - "traefik.http.services.pgadmin.loadbalancer.server.port=80"
-    networks:
-      - infranetwork
-
   # https://registry.hub.docker.com/_/postgres
+  # https://www.keycloak.org/getting-started/getting-started-docker
   keycloak-postgres:
     image: library/postgres:14
     hostname: keycloak-postgres
@@ -28,13 +13,11 @@ services:
       POSTGRES_USER: keycloak
       POSTGRES_PASSWORD: keycloak
       POSTGRES_DB: keycloak
-      PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - "/etc/timezone:/etc/timezone:ro"
       - "/etc/localtime:/etc/localtime:ro"
-      - "../data/pgsql/keycloak:/var/lib/postgresql/data"
     networks:
-      - infranetwork
+      - infra_network
 
   # https://registry.hub.docker.com/r/jboss/keycloak
   keycloak:
@@ -60,7 +43,7 @@ services:
       - "/etc/timezone:/etc/timezone:ro"
       - "/etc/localtime:/etc/localtime:ro"
     networks:
-      - infranetwork
+      - infra_network
     depends_on:
       - keycloak-postgres
     labels:
@@ -71,7 +54,6 @@ services:
       - "traefik.http.middlewares.rewritepath.replacepathregex.regex=^/security/(.*)"
       - "traefik.http.middlewares.rewritepath.replacepathregex.replacement=/auth/$$1"
 
-
 networks:
-  infranetwork:
+  infra_network:
     external: true
