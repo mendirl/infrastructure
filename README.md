@@ -14,3 +14,17 @@ in powershell
     
     wsl -d docker-desktop
     sysctl -w vm.max_map_count=262144
+
+
+### docker doesn't start
+
+in powershell terminal, as root :
+
+    netsh winsock reset
+
+
+### elastic/open search
+in powershell:
+
+    wsl -d docker-desktop
+    sysctl -w vm.max_map_count=262144

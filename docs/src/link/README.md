@@ -14,5 +14,10 @@ sidebar: auto
 ## other
 
 - [pgadmin](http://localhost/pgadmin)
-- [keycloak](http://localhost/security)
+- [keycloak](http://localhost/security/admin)
 - [keycloak w/o reverse](http://localhost:8082/auth)
+
+## monitoring
+
+- [open dashboards](http://localhost/dashboards)
+- [kibana](http://localhost/kibana)
