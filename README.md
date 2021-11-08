@@ -27,4 +27,5 @@ in powershell terminal, as root :
 in powershell:
 
     wsl -d docker-desktop
-    sysctl -w vm.max_map_count=262144
+    - sysctl -w vm.max_map_count=262144 (temporarily)
+    - echo "vm.max_map_count=262144" >  /etc/sysctl.d/100-elastic.conf && sysctl -p /etc/sysctl.d/100-elastic.conf
