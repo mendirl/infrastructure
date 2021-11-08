@@ -7,8 +7,8 @@ services:
     environment:
       - node.name=opensearch-node1
       - cluster.name=opensearch-cluster
-      - discovery.seed_hosts=opensearch-node1,opensearch-node2
-      - cluster.initial_master_nodes=opensearch-node1,opensearch-node2
+      - discovery.seed_hosts=opensearch-node2,opensearch-node3
+      - cluster.initial_master_nodes=opensearch-node1,opensearch-node2,opensearch-node3
       - bootstrap.memory_lock=true # along with the memlock settings below, disables swapping
       - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m" # minimum and maximum Java heap size, recommend setting both to 50% of system RAM
     ulimits:
@@ -32,8 +32,8 @@ services:
     environment:
       - node.name=opensearch-node2
       - cluster.name=opensearch-cluster
-      - discovery.seed_hosts=opensearch-node1,opensearch-node2
-      - cluster.initial_master_nodes=opensearch-node1,opensearch-node2
+      - discovery.seed_hosts=opensearch-node1,opensearch-node3
+      - cluster.initial_master_nodes=opensearch-node1,opensearch-node2,opensearch-node3
       - bootstrap.memory_lock=true
       - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
@@ -47,6 +47,28 @@ services:
     #   - ../data/opensearch/data2:/usr/share/opensearch/data
     networks:
       - infra_network
+  opensearch-node3:
+    image: opensearchproject/opensearch:1.1.0
+    container_name: opensearch-node3
+    hostname: opensearch-node3
+    environment:
+      - node.name=opensearch-node3
+      - cluster.name=opensearch-cluster
+      - discovery.seed_hosts=opensearch-node1,opensearch-node2
+      - cluster.initial_master_nodes=opensearch-node1,opensearch-node2,opensearch-node3
+      - bootstrap.memory_lock=true
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    # volumes:
+    #   - ../data/opensearch/data3:/usr/share/opensearch/data
+    networks:
+      - infra_network
   opensearch-dashboards:
     image: opensearchproject/opensearch-dashboards:1.1.0
     container_name: opensearch-dashboards
@@ -54,7 +76,7 @@ services:
     ports:
       - 5601:5601
     environment:
-      OPENSEARCH_HOSTS: '["https://opensearch-node1:9200","https://opensearch-node2:9200"]' # must be a string with no spaces when specified as an environment variable
+      OPENSEARCH_HOSTS: '["https://opensearch-node1:9200","https://opensearch-node2:9200","https://opensearch-node3:9200"]' # must be a string with no spaces when specified as an environment variable
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dashboards.rule=PathPrefix(`/dashboards`)"
