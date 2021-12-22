@@ -18,7 +18,7 @@ services:
   # https://hub.docker.com/_/vault
   # https://www.vaultproject.io/docs
   vault:
-    image: vault:1.9.1
+    image: vault:1.9.2
     hostname: vault
     container_name: vault
     ports:
