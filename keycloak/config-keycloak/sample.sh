@@ -2,8 +2,7 @@ https://github.com/keycloak/keycloak-documentation/blob/master/server_admin/topi
 https://github.com/AndriyKalashnykov/sample-spring-security-microservices/tree/master/scripts
 
 ## connection server
-docker exec -it keycloak /opt/jboss/keycloak/bin/kcadm.sh config credentials
- --server http://localhost:8080/auth --realm master --user admin --password admin
+docker exec -it keycloak /opt/jboss/keycloak/bin/kcadm.sh config credentials --server http://localhost:9999/auth --realm master --user fabien --password xxoca306
 ## creation realms
 docker exec -it keycloak /opt/jboss/keycloak/bin/kcadm.sh create realms -s realm=JupiterR -s id=JupiterR -s enabled=true
 ## deleting realms
