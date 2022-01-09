@@ -13,8 +13,9 @@ sidebar: auto
 
 ## other
 
-- [pgadmin](http://localhost/pgadmin)
-- [keycloak](http://localhost/security/admin)
+- [rabbitmq](http://localhost/rabbit/)
+- [pgadmin](http://localhost/pgadmin/)
+- [keycloak](http://localhost/security/admin/)
 - [keycloak w/o reverse](http://localhost:8082/auth)
 
 ## monitoring
