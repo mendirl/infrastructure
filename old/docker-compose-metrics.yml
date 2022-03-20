@@ -2,7 +2,7 @@ version: '3'
 services:
 
   prometheus:
-    image: prom/prometheus:v2.33.4
+    image: prom/prometheus:v2.34.0
     container_name: prometheus
     hostname: prometheus
     ports:
