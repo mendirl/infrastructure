@@ -3,7 +3,7 @@ version: '3'
 services:
   traefik:
     # The official v2 Traefik docker image
-    image: traefik:v2.6
+    image: traefik:v2.7
     hostname: traefik
     container_name: traefik
     ports:
