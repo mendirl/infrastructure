@@ -15,7 +15,7 @@ version: '3'
 #                             application's actuator endpoints from your host machine.
 services:
   mysql:
-    image: mysql:8.0.28
+    image: mysql:8.0.29
     container_name: dataflow-mysql
     environment:
       MYSQL_DATABASE: dataflow
