@@ -1,7 +1,7 @@
 version: '3'
 services:
   elasticsearch-node1:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.2.2
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.2.3
     container_name: elasticsearch-node1
     hostname: elasticsearch-node1
     environment:
@@ -22,7 +22,7 @@ services:
     networks:
       - infra_network
   elasticsearch-node2:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.2.2
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.2.3
     container_name: elasticsearch-node2
     hostname: elasticsearch-node2
     environment:
@@ -41,7 +41,7 @@ services:
     networks:
       - infra_network
   elasticsearch-node3:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.2.2
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.2.3
     container_name: elasticsearch-node3
     hostname: elasticsearch-node3
     environment:
@@ -60,7 +60,7 @@ services:
     networks:
       - infra_network
   kibana:
-    image: docker.elastic.co/kibana/kibana:8.2.2
+    image: docker.elastic.co/kibana/kibana:8.2.3
     container_name: kibana
     hostname: kibana
     ports:

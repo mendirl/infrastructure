@@ -2,7 +2,7 @@ version: '3'
 services:
 
   prometheus:
-    image: prom/prometheus:v2.36.1
+    image: prom/prometheus:v2.36.2
     container_name: prometheus
     hostname: prometheus
     ports:
@@ -12,7 +12,7 @@ services:
 
 
   grafana:
-    image: grafana/grafana:8.5.6
+    image: grafana/grafana:9.0.1
     container_name: grafana
     hostname: grafana
     ports:
