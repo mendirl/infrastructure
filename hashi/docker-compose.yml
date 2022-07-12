@@ -6,6 +6,7 @@ services:
     image: library/consul:1.12
     hostname: consul
     container_name: consul
+    restart: always
     ports:
       - 8300:8300 # rpc/cluster
       - 8500:8500 # http/ui
@@ -14,6 +15,12 @@ services:
      - "/etc/timezone:/etc/timezone:ro"
      - "/etc/localtime:/etc/localtime:ro"
     command: consul agent -dev -ui -client 0.0.0.0
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.consul.rule=PathPrefix(`/consul`)"
+      - "traefik.http.services.consul.loadbalancer.server.port=8500"
+    networks:
+      - infra_network
 
   # https://hub.docker.com/_/vault
   # https://www.vaultproject.io/docs
@@ -21,6 +28,7 @@ services:
     image: vault:1.11.0
     hostname: vault
     container_name: vault
+    restart: always
     ports:
       - 8200:8200
       - 8201:8201 # cluster
@@ -33,3 +41,13 @@ services:
      - "/etc/localtime:/etc/localtime:ro"
     cap_add:
       - IPC_LOCK
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.vault.rule=PathPrefix(`/vault`)"
+      - "traefik.http.services.vault.loadbalancer.server.port=8200"
+    networks:
+      - infra_network
+
+networks:
+  infra_network:
+    external: true

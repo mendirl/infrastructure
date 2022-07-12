@@ -6,6 +6,7 @@ services:
     image: traefik:v2.8
     hostname: traefik
     container_name: traefik
+    restart: always
     ports:
       # The HTTP port
       - "80:80"
@@ -23,6 +24,7 @@ services:
     image: traefik/whoami
     hostname: whoami
     container_name: whoami
+    restart: always
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.whoami.rule=PathPrefix(`/whoami`)"
