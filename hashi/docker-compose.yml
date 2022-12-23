@@ -3,7 +3,7 @@ services:
   # https://hub.docker.com/_/consul
   # https://www.consul.io/docs
   consul:
-    image: library/consul:1.13
+    image: library/consul:1.14
     hostname: consul
     container_name: consul
     restart: always
