@@ -24,10 +24,10 @@ services:
       - infra_network
 
   # https://hub.docker.com/_/postgres
-  pgdefault:
+postgres:
     image: postgres:16
-    hostname: pgdefault
-    container_name: pgdefault
+    hostname: postgres
+    container_name: postgres
     restart: always
     # expose:
     #   - 5432
