@@ -9,6 +9,13 @@ https://docs.docker.com/docker-for-windows/wsl/ -> step7
 ## elasticsearch
 https://github.com/docker/for-win/issues/5202#issuecomment-678277217
 
+# LINUX
+
+## Manage Docker as a non-root user 
+https://docs.docker.com/engine/install/linux-postinstall/
+    
+    sudo usermod -aG docker $USER
+
 
 
 
