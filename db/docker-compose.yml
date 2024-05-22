@@ -1,4 +1,3 @@
-version: "3"
 services:
 
   # https://hub.docker.com/_/rabbitmq
