@@ -1,7 +1,7 @@
 version: '3'
 services:
   opensearch-node1:
-    image: opensearchproject/opensearch:2.15.0
+    image: opensearchproject/opensearch:2.16.0
     container_name: opensearch-node1
     hostname: opensearch-node1
     environment:
@@ -26,7 +26,7 @@ services:
     networks:
       - infra_network
   opensearch-node2:
-    image: opensearchproject/opensearch:2.15.0
+    image: opensearchproject/opensearch:2.16.0
     container_name: opensearch-node2
     hostname: opensearch-node2
     environment:
@@ -48,7 +48,7 @@ services:
     networks:
       - infra_network
   opensearch-node3:
-    image: opensearchproject/opensearch:2.15.0
+    image: opensearchproject/opensearch:2.16.0
     container_name: opensearch-node3
     hostname: opensearch-node3
     environment:
