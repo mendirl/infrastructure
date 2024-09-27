@@ -2,7 +2,7 @@ services:
 
   # https://hub.docker.com/_/rabbitmq
   rabbitmq:
-    image: rabbitmq:3-management
+    image: rabbitmq:4-management
     hostname: rabbitmq
     container_name: rabbitmq
     restart: always
