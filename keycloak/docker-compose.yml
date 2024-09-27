@@ -4,7 +4,7 @@ services:
   # https://registry.hub.docker.com/_/postgres
   # https://www.keycloak.org/getting-started/getting-started-docker
   pgkeycloak:
-    image: library/postgres:16
+    image: library/postgres:17
     hostname: pgkeycloak
     container_name: pgkeycloak
     restart: always
