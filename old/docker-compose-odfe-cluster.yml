@@ -140,7 +140,7 @@ services:
       - 5601:5601
 
   logstash:
-    image: docker.elastic.co/logstash/logstash-oss:8.15.3
+    image: docker.elastic.co/logstash/logstash-oss:8.16.1
     container_name: logstash
     hostname: logstash
     volumes:
