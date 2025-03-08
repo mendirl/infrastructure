@@ -27,9 +27,9 @@ services:
 #      - "traefik.http.routers.keycloak.entrypoints=web,websecure"
 #      - "traefik.http.routers.keycloak.rule=Host(`kafka.mend.ovh`)"
 #      - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
-      - "traefik.tcp.routers.postgresql.entrypoints=tcp_kafka"
-      - "traefik.tcp.routers.postgresql.rule=HostSNI(`*`)"
-      - "traefik.tcp.services.postgresql.loadbalancer.server.port=9092"
+      - "traefik.tcp.routers.kafka.entrypoints=tcp_kafka"
+      - "traefik.tcp.routers.kafka.rule=HostSNI(`*`)"
+      - "traefik.tcp.services.kafka.loadbalancer.server.port=9092"
 
 
 networks:
