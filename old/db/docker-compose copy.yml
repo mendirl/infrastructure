@@ -1,0 +1,61 @@
+version: '3'
+services:
+    postgres:    
+      image: postgres
+      labels:
+        - "traefik.enable=true"
+        - "traefik.tcp.routers.postgres.rule=HostSNI(`*`)"
+        - "traefik.tcp.routers.postgres.entrypoints=tcp"
+        - "traefik.tcp.services.postgres.loadbalancer.server.port=5432"
+      environment:
+        POSTGRES_USER: ${POSTGRES_USER:-postgres}
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+        PGDATA: /data/postgres
+      volumes:
+        - postgres:/data/postgres
+      networks:
+        - traefik
+
+    pgadmin:
+      image: dpage/pgadmin4
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.pgadmin.entrypoints=web"
+        - "traefik.http.routers.pgadmin.rule=Host(`pgadmin.docker.localhost`)"
+        - "traefik.http.services.pgadmin.loadbalancer.server.port=80"
+      environment:
+        PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+        PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+        PGADMIN_CONFIG_SERVER_MODE: 'False'
+      volumes:
+        - pgadmin:/var/lib/pgadmin
+      networks:
+        - traefik
+
+    traefik:
+      image: "traefik:v2.8"
+      command:
+        - "--log.level=DEBUG"
+        - "--configfile=/traefik.yml"
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.api.entrypoints=web"
+        - "traefik.http.routers.api.rule=Host(`traefik.docker.localhost`)"
+        - "traefik.http.routers.api.service=api@internal"
+      ports:
+        - "80:80"
+        - "443:443"
+        - "5432:5432"
+      networks:
+        - traefik
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock:ro
+        - /sandbox/configs/static/proxy-v2.yml:/traefik.yml
+        #- /sandbox/configs/file-provider.yml:/dynamic.yml
+
+networks:
+  traefik:
+
+volumes:
+    postgres:
+    pgadmin:
