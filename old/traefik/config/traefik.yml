@@ -1,0 +1,37 @@
+# log:
+#   level: "TRACE"
+
+entryPoints:
+  web:
+    address: ":80"
+    forwardedHeaders:
+      insecure: true
+  websecure:
+    address: ":443"
+
+api:
+  insecure: true
+  dashboard: true
+  debug: true
+
+providers:
+  docker:
+    exposedByDefault: false
+    endpoint: "unix:///var/run/docker.sock"
+
+
+tls:
+  certificates:
+    - certFile: /mnt/docker/config/cert/mend.local/cert.pem
+      keyFile: /path/to/domain.key
+    - certFile: /path/to/other-domain.cert
+      keyFile: /path/to/other-domain.key
+
+certificatesResolvers:
+  ovhresolver:
+    acme:
+      email: fabien.couillard+ovh@gmail.com
+      storage: acme.json
+      httpChallenge:
+        # used during the challenge
+        entryPoint: web

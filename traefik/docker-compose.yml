@@ -1,23 +1,26 @@
-version: '3'
-
 services:
   traefik:
-    # The official v2 Traefik docker image
-    image: traefik:v3.3
+    image: traefik:v3
     hostname: traefik
     container_name: traefik
     restart: always
     ports:
-      # The HTTP port
-      - "80:80"
-      # The Web UI (enabled by --api.insecure=true)
-      - "8080:8080"
+      # HTTP
+      - "88:80"
+      # HTTPS
+      - "8443:443"
+      # Web UI (enabled by --api.insecure=true)
+      - "8888:8080"
+      # pgsql entrypoint
+      - "5434:5434"
+      # clickhouse entrypoint
+      - "8125:8125"
+    networks:
+      - syno_traefik
     volumes:
-      - ./config/traefik.yml:/etc/traefik/traefik.yml
+      - /volume1/docker/traefik/config/traefik.yml:/etc/traefik/traefik.yml
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
-    networks:
-      - infra_network
 
   whoami:
       # A container that exposes an API to show its IP address
@@ -25,13 +28,13 @@ services:
     hostname: whoami
     container_name: whoami
     restart: always
+    networks:
+      - syno_traefik
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.whoami.rule=PathPrefix(`/whoami`)"
-      # - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"
-    networks:
-      - infra_network
+      - "traefik.http.routers.whoami.entrypoints=web,websecure"
+      - "traefik.http.routers.whoami.rule=Host(`iam.mend.ovh`)"
 
-networks: 
-  infra_network:
+networks:
+  syno_traefik:
     external: true
