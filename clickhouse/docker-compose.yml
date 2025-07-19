@@ -1,4 +1,9 @@
+networks:
+  otel-net:
+    name: syno_traefik
+
 services:
+
   clickhouse:
     image: clickhouse
     hostname: clickhouse
@@ -8,9 +13,12 @@ services:
       nofile:
         soft: "262144"
         hard: "262144"
+    ports:
+      - 8123:8123
+      - 9000:9000
     environment:
       CLICKHOUSE_USER: fabien
-      CLICKHOUSE_PASSWORD: 
+      CLICKHOUSE_PASSWORD: xxoca306
     networks:
       - syno_traefik
     volumes:
@@ -22,6 +30,6 @@ services:
       - "traefik.tcp.routers.clickhouse.rule=HostSNI(`*`)"
       - "traefik.tcp.services.clickhouse.loadbalancer.server.port=8123"
 
-networks:
-  syno_traefik:
-    external: true
+#networks:
+#  syno_traefik:
+#    external: true

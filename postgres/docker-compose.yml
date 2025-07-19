@@ -1,3 +1,7 @@
+networks:
+  otel-net:
+    name: syno_traefik
+
 services:
 
   postgres:
@@ -7,7 +11,9 @@ services:
     restart: always
     environment:
       POSTGRES_USER: fabien
-      POSTGRES_PASSWORD: 
+      POSTGRES_PASSWORD: xxoca306
+    ports:
+      - 5432:5432
     networks:
       - syno_traefik
     volumes:
@@ -18,6 +24,6 @@ services:
       - "traefik.tcp.routers.postgresql.rule=HostSNI(`*`)"
       - "traefik.tcp.services.postgresql.loadbalancer.server.port=5432"
 
-networks:
-  syno_traefik:
-    external: true
+# networks:
+#   syno_traefik:
+#     external: true
