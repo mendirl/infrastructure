@@ -1,7 +1,3 @@
-networks:
-  otel-net:
-    name: syno_traefik
-
 services:
 
   postgres:
