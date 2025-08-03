@@ -24,6 +24,6 @@ services:
       - "traefik.tcp.routers.postgresql.rule=HostSNI(`*`)"
       - "traefik.tcp.services.postgresql.loadbalancer.server.port=5432"
 
-# networks:
-#   syno_traefik:
-#     external: true
+networks:
+  syno_traefik:
+    external: true
