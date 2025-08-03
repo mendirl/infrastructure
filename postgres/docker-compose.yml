@@ -9,7 +9,7 @@ services:
       POSTGRES_USER: fabien
       POSTGRES_PASSWORD: xxoca306
     ports:
-      - 5432:15432
+      - 15432:5432
     networks:
       - syno_traefik
     volumes:
