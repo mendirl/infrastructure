@@ -21,17 +21,11 @@ services:
       KAFKA_NUM_PARTITIONS: 3
     networks:
       - syno_traefik
-#    volumes:
-#      - "/volume1/docker/postgresql/data:/var/lib/postgresql/data"
     labels:
       - "traefik.enable=true"
-#      - "traefik.http.routers.keycloak.entrypoints=web,websecure"
-#      - "traefik.http.routers.keycloak.rule=Host(`kafka.mend.ovh`)"
-#      - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
       - "traefik.tcp.routers.kafka.entrypoints=tcp_kafka"
       - "traefik.tcp.routers.kafka.rule=HostSNI(`*`)"
       - "traefik.tcp.services.kafka.loadbalancer.server.port=9094"
-
 
 networks:
   syno_traefik:
