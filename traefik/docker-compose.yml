@@ -4,6 +4,11 @@ services:
     hostname: traefik
     container_name: traefik
     restart: always
+    environment:
+      OVH_ENDPOINT: ovh-eu
+      OVH_APPLICATION_KEY: e6bc1ad8ba5d9135
+      OVH_APPLICATION_SECRET:
+      OVH_CONSUMER_KEY:
     ports:
       # HTTP
       - "88:80"
