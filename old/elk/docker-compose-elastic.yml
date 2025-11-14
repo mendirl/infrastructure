@@ -1,0 +1,99 @@
+services:
+  elasticsearch-node1:
+<<<<<<< HEAD:elk/docker-compose-elastic.yml
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.17.3
+=======
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.17.2
+>>>>>>> 2b6d318 (update to syno):old/elk/docker-compose-elastic.yml
+    container_name: elasticsearch-node1
+    hostname: elasticsearch-node1
+    environment:
+      - node.name=elasticsearch-node1
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=elasticsearch-node2,elasticsearch-node3
+      - cluster.initial_master_nodes=elasticsearch-node1,elasticsearch-node2,elasticsearch-node3
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    # volumes:
+    #   - data01:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    networks:
+      - infra_network
+  elasticsearch-node2:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.17.3
+    container_name: elasticsearch-node2
+    hostname: elasticsearch-node2
+    environment:
+      - node.name=elasticsearch-node2
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=elasticsearch-node1,elasticsearch-node3
+      - cluster.initial_master_nodes=elasticsearch-node1,elasticsearch-node2,elasticsearch-node3
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    # volumes:
+    #   - data02:/usr/share/elasticsearch/data
+    networks:
+      - infra_network
+  elasticsearch-node3:
+<<<<<<< HEAD:elk/docker-compose-elastic.yml
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.17.3
+=======
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.17.2
+>>>>>>> 2b6d318 (update to syno):old/elk/docker-compose-elastic.yml
+    container_name: elasticsearch-node3
+    hostname: elasticsearch-node3
+    environment:
+      - node.name=elasticsearch-node3
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=elasticsearch-node1,elasticsearch-node2
+      - cluster.initial_master_nodes=elasticsearch-node1,elasticsearch-node2,elasticsearch-node3
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    # volumes:
+    #   - data03:/usr/share/elasticsearch/data
+    networks:
+      - infra_network
+  kibana:
+<<<<<<< HEAD:elk/docker-compose-elastic.yml
+    image: docker.elastic.co/kibana/kibana:8.17.3
+=======
+    image: docker.elastic.co/kibana/kibana:8.17.2
+>>>>>>> 2b6d318 (update to syno):old/elk/docker-compose-elastic.yml
+    container_name: kibana
+    hostname: kibana
+    ports:
+      - 5602:5601
+    environment:
+      ELASTICSEARCH_HOSTS: '["http://elasticsearch-node1:9200","http://elasticsearch-node2:9200","http://elasticsearch-node3:9200"]'
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.kibana.rule=PathPrefix(`/kibana`)"
+      - "traefik.http.services.kibana.loadbalancer.server.port=5601"
+    networks:
+      - infra_network
+
+# volumes:
+#   data01:
+#     driver: local
+#   data02:
+#     driver: local
+#   data03:
+#     driver: local
+
+
+networks:
+  infra_network:
+    external: true

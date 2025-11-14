@@ -1,0 +1,16 @@
+# https://registry.hub.docker.com/_/postgres
+
+version: "3"
+services:
+  postgres:
+    image: library/postgres:17
+    hostname: postgres
+    container_name: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+#    volumes:
+#      - ./config-postgresql/ini.sql:/docker-entrypoint-initdb.d/init.sql
+#     - ~/volumes/jhipster/appA/postgresql/:/var/lib/postgresql/data/

@@ -1,0 +1,19 @@
+{
+  "name": "infrastructure",
+  "version": "0.0.1",
+  "description": "bunch of files for infra",
+  "main": "index.js",
+  "authors": {
+    "name": "fabien",
+    "email": "couillard.fabien+dev@gmail.com"
+  },
+  "repository": "https://github.com/mendirl/infrastructure",
+  "scripts": {
+    "dev": "vuepress dev src",
+    "build": "vuepress build src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "vuepress": "1.9.10"
+  }
+}

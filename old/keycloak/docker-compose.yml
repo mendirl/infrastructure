@@ -1,0 +1,60 @@
+services:
+
+  # https://registry.hub.docker.com/_/postgres
+  # https://www.keycloak.org/getting-started/getting-started-docker
+  pgkeycloak:
+    image: postgres:17
+    hostname: pgkeycloak
+    container_name: pgkeycloak
+    restart: always
+    environment:
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD:
+      POSTGRES_DB: keycloak
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/mnt/docker/data/postgres/pgkeycloak/data:/var/lib/postgresql/data/pgdata"
+    networks:
+      - infra_network
+
+  # https://registry.hub.docker.com/r/keycloak/keycloak
+  keycloak:
+    image: keycloak/keycloak:26.2
+    hostname: keycloak
+    container_name: keycloak
+    restart: always
+    command: start-dev
+    # command: start # prod
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: fabien
+      KC_BOOTSTRAP_ADMIN_PASSWORD:
+      KC_DB: postgres
+      KC_DB_URL_HOST: pgkeycloak
+      KC_DB_URL_PORT: 5432
+      KC_DB_URL_DATABASE: keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD:
+      # KC_PROXY_HEADERS: xforwarded
+      # KC_HTTP_RELATIVE_PATH: /security
+      # KC_RUN_IN_CONTAINER: true
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+    networks:
+      - infra_network
+    depends_on:
+      - pgkeycloak
+    labels:
+      - "traefik.enable=true"
+      # - "traefik.http.routers.iam.rule=PathPrefix(`/security`)"
+      - "traefik.http.routers.iam.rule=Host(`iam.mend.local`)"
+      - "traefik.http.services.iam.loadbalancer.server.port=8080"
+      # - "traefik.http.routers.iam.middlewares=rewritepath"
+      # - "traefik.http.middlewares.rewritepath.replacepathregex.regex=^/security/(.*)"
+      # - "traefik.http.middlewares.rewritepath.replacepathregex.replacement=/auth/$$1"
+
+networks:
+  infra_network:
+    external: true

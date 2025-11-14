@@ -1,0 +1,46 @@
+services:
+  traefik:
+    image: traefik:v3
+    hostname: traefik
+    container_name: traefik
+    restart: always
+    ports:
+      # HTTP
+      - "88:80"
+      # HTTPS
+      - "8443:443"
+      # Web UI (enabled by --api.insecure=true)
+      - "8888:8080"
+      # tcp pgsql entrypoint
+      - "5434:5434"
+      # tcp clickhouse entrypoint
+      - "8125:8125"
+      # tcp kafka entrypoint
+      - "9094:9094"
+    networks:
+      - syno_traefik
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /volume1/docker/traefik/config/traefik.yml:/etc/traefik/traefik.yml
+      - traefik:/certs
+  whoami:
+      # A container that exposes an API to show its IP address
+    image: traefik/whoami
+    hostname: whoami
+    container_name: whoami
+    restart: always
+    networks:
+      - syno_traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.entrypoints=web,websecure"
+      - "traefik.http.routers.whoami.rule=Host(`iam.mend.ovh`)"
+      - "traefik.http.routers.whoami.tls=true"
+      - "traefik.http.routers.whoami.tls.certresolver=letencrypt"
+volumes:
+  traefik:
+    name: traefik
+
+networks:
+  syno_traefik:
+    external: true

@@ -1,0 +1,96 @@
+services:
+
+  # https://hub.docker.com/_/rabbitmq
+  rabbitmq:
+    image: rabbitmq:4-management
+    hostname: rabbitmq
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.rabbit.rule=PathPrefix(`/rabbit`)"
+      - "traefik.http.services.rabbit.loadbalancer.server.port=15672"
+      - "traefik.http.routers.rabbit.middlewares=rabbitrewritepath"
+      - "traefik.http.middlewares.rabbitrewritepath.replacepathregex.regex=^/rabbit/(.*)"
+      - "traefik.http.middlewares.rabbitrewritepath.replacepathregex.replacement=/$$1"
+    networks:
+      - infra_network
+
+  # https://hub.docker.com/_/postgres
+  postgres:
+    image: postgres:17
+    hostname: postgres
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/volume1/docker/postgresql/data:/var/lib/postgresql/data"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`db.mend.ovh`)"
+      - "traefik.http.services.postgresql.loadbalancer.server.port=5432"
+
+    networks:
+      - infra_network
+
+  # https://hub.docker.com/r/dpage/pgadmin4/
+  # https://www.pgadmin.org/docs/pgadmin4/latest/container_deployment.html
+  pgadmin:
+    image: dpage/pgadmin4:9
+    hostname: pgadmin
+    container_name: pgadmin
+    restart: always
+    # expose:
+    #   - 80
+    # ports:
+      # - 8282:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: fabien@gmail.com
+      PGADMIN_DEFAULT_PASSWORD:
+      SCRIPT_NAME: /pgadmin
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.pgadmin.rule=PathPrefix(`/pgadmin`)"
+      - "traefik.http.services.pgadmin.loadbalancer.server.port=80"
+    networks:
+      - infra_network
+
+clickhouse:
+  image: clickhouse
+  hostname: clickhouse
+  container_name: clickhouse
+  restart: always
+  expose:
+    - 8123
+  ulimits:
+    nofile:
+      soft: "262144"
+      hard: "262144"
+  environment:
+    CLICKHOUSE_USER: fabien
+    CLICKHOUSE_PASSWORD:
+  volumes:
+    - "/volume1/docker/clickhouse/data:/var/lib/clickhouse"
+    - "/volume1/docker/clickhouse/logs:/var/log/clickhouse-server"
+  labels:
+    - "traefik.enable=true"
+    - "traefik.tcp.routers.clickhouse.entrypoints=tcpClickhouse"
+    - "traefik.tcp.routers.clickhouse.rule=HostSNI(`*`)"
+    - "traefik.tcp.services.clickhouse.loadbalancer.server.port=8123"
+
+networks:
+  infra_network:
+    external: true

@@ -1,0 +1,27 @@
+services:
+
+  # https://hub.docker.com/_/mongo
+  mongo:
+    image: mongo:latest
+    hostname: mongo
+    container_name: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+
+  # https://hub.docker.com/_/mongo-express
+  mongoexpress:
+    image: mongo-express:latest
+    hostname: mongoexpress
+    container_name: mongoexpress
+    restart: always
+    ports:
+    - 9191:8081
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"

@@ -1,0 +1,39 @@
+entryPoints:
+  web:
+    address: ":80"
+    forwardedHeaders:
+      insecure: true
+  websecure:
+    address: ":443"
+  tcp_postgresql:
+    address: ":5434"
+  tcp_clickhouse:
+    address: ":8125"
+  tcp_kafka:
+    address: ":9094"
+
+api:
+  insecure: true
+  dashboard: true
+  debug: true
+
+providers:
+  docker:
+    exposedByDefault: false
+    endpoint: "unix:///var/run/docker.sock"
+
+serversTransport:
+  insecureSkipVerify: true
+
+certificatesResolvers:
+  letencrypt:
+    acme:
+      email: couillard.fabien+ovh@gmail.com
+      storage: /certs/acme.json
+      caServer: https://acme-v02.api.letsencrypt.org/directory # prod (default)
+      # caServer: https://acme-staging-v02.api.letsencrypt.org/directory # staging
+      httpChallenge:
+        entryPoint: web
+
+log:
+  level: DEBUG
