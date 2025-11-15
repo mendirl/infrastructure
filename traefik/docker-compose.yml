@@ -6,7 +6,7 @@ services:
     restart: always
     environment:
       OVH_ENDPOINT: ovh-eu
-      OVH_APPLICATION_KEY: e6bc1ad8ba5d9135
+      OVH_APPLICATION_KEY: 6c2f8d2e71b9afa6
       OVH_APPLICATION_SECRET:
       OVH_CONSUMER_KEY:
     ports:
@@ -27,7 +27,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /volume1/docker/traefik/config/traefik.yml:/etc/traefik/traefik.yml
-      - traefik:/certs
+      - certif:/certs
   whoami:
       # A container that exposes an API to show its IP address
     image: traefik/whoami
@@ -42,9 +42,10 @@ services:
       - "traefik.http.routers.whoami.rule=Host(`iam.mend.ovh`)"
       - "traefik.http.routers.whoami.tls=true"
       - "traefik.http.routers.whoami.tls.certresolver=letencrypt"
+
 volumes:
-  traefik:
-    name: traefik
+  certif:
+    external: true
 
 networks:
   syno_traefik:
