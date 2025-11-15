@@ -24,7 +24,9 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.tcp.routers.kafka.entrypoints=tcp_kafka"
-      - "traefik.tcp.routers.kafka.rule=HostSNI(`*`)"
+      - "traefik.tcp.routers.kafka.rule=HostSNI(`kafka.mend.ovh`)"
+      - "traefik.tcp.routers.kafka.tls=true"
+      - "traefik.tcp.routers.kafka.tls.certresolver=letencrypt"
       - "traefik.tcp.services.kafka.loadbalancer.server.port=9094"
 
 networks:
