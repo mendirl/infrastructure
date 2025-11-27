@@ -27,7 +27,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /volume1/docker/traefik/config/traefik.yml:/etc/traefik/traefik.yml
-      - traefik:/certs
+      - certif:/certs
   whoami:
       # A container that exposes an API to show its IP address
     image: traefik/whoami
@@ -42,9 +42,27 @@ services:
       - "traefik.http.routers.whoami.rule=Host(`iam.mend.ovh`)"
       - "traefik.http.routers.whoami.tls=true"
       - "traefik.http.routers.whoami.tls.certresolver=letencrypt"
+
+  acme-sh:
+    image: neilpang/acme.sh
+    container_name: acme.sh
+    command: daemon
+    environment:
+      OVH_AK: 6c2f8d2e71b9afa6
+      OVH_AS:
+      OVH_CK:
+#    network_mode: host
+    networks:
+      - syno_traefik
+    volumes:
+      - certif:/acme.sh
+#    stdin_open: true
+#    tty: true
+#    restart: no
+
 volumes:
-  traefik:
-    name: traefik
+  certif:
+    external: true
 
 networks:
   syno_traefik:
